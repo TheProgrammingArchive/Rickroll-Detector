@@ -57,11 +57,10 @@ class IdentifyLink:
                 uploaded_on = stuff.find_element_by_xpath('//*[@id="date"]/yt-formatted-string')
                 video_info.append(uploaded_on.text)
 
-                likes_count = stuff.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]')
+                likes_count = stuff.find_element_by_xpath('/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[2]/ytd-toggle-button-renderer[1]/a/yt-formatted-string')
                 video_info.append(likes_count.text)
 
-                dislikes_count = stuff.find_element_by_xpath(
-                    '//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]')
+                dislikes_count = stuff.find_element_by_xpath('/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[2]/ytd-toggle-button-renderer[2]/a/yt-formatted-string')
                 video_info.append(dislikes_count.text)
 
             return video_info
@@ -74,19 +73,11 @@ class IdentifyLink:
     def other_details(self):
         try:
             details = WebDriverWait(self.driver_link, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, 'style-scope ytd-video-secondary-info-renderer'))
+                EC.presence_of_element_located((By.XPATH, '//*[@id="top-row"]/ytd-video-owner-renderer'))
             )
 
-            for stuff in details:
-                details_content = []
-
-                channel_name = stuff.find_element_by_xpath('//*[@id="text"]/a')
-                details_content.append(channel_name.text)
-
-                subscirber_count = stuff.find_element_by_xpath('//*[@id="owner-sub-count"]')
-                details_content.append(subscirber_count.text)
-
-            return details_content
+            details = details.text.split('\n')
+            return details
 
         except Exception as E:
             self.driver_link.quit()

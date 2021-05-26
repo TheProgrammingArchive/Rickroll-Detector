@@ -3,7 +3,7 @@ import zipfile
 import platform
 import sys
 
-chrome_version = '89.0.4389.23'
+chrome_version = '91.0.4472.19'
 
 def install_chrome_driver_package(link):
     chromedriver_content = requests.get(link)
